@@ -20,6 +20,7 @@ data/processed/*
 *.xws
 *.npz
 *.csv
+!results/*.csv
 *.npy
 
 # Saved Models & Checkpoints (keep small config or track explicitly if needed)
