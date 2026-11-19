@@ -1,0 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Dataset & Heavy Processed Data (ignore large binary/data files, keep scripts)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+*.dat
+*.hea
+*.atr
+*.xws
+*.npz
+*.csv
+*.npy
+
+# Saved Models & Checkpoints (keep small config or track explicitly if needed)
+saved_models/*.pkl
+saved_models/*.joblib
+!saved_models/.gitkeep
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+.ipynb_checkpoints/
