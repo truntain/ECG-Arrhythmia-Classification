@@ -44,7 +44,7 @@ ECG-Arrhythmia-Classification/
 
 ### Bước 1: Clone repository về máy
 ```bash
-git clone https://github.com/<username>/ECG-Arrhythmia-Classification.git
+git clone https://github.com/truntain/ECG-Arrhythmia-Classification.git
 cd ECG-Arrhythmia-Classification
 ```
 
