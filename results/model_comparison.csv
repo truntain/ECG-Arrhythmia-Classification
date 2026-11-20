@@ -1,0 +1,5 @@
+Model,Accuracy (%),Macro F1 (%),Weighted F1 (%),Macro Precision (%),Macro Recall (%),Train Time (s),Inference Time (ms/1k beats)
+k-NN,98.3,75.28,98.41,69.6,89.68,0.0,147.34
+SVM (RBF),98.88,81.48,98.91,80.79,83.48,15.18,471.04
+Random Forest,98.59,86.01,98.61,84.76,87.37,19.01,5.83
+XGBoost,98.88,85.81,98.9,81.16,95.11,10.06,5.98

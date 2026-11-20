@@ -6,9 +6,9 @@
 | :-: | :--- | :---: | :--- | :---: |
 | 1 | **Trương Thế Thành** | **20235835** | **Hạ tầng Repo, Data Pipeline, EDA, Khử nhiễu tín hiệu & Phân đoạn nhịp (Beat Segmentation)** | **Đã hoàn thành 100%** |
 | 2 | **Nguyễn Sỹ Vinh** | **20235875** | **Trích xuất đặc trưng (Hình thái, RR, Wavelet), Giảm chiều PCA & Xử lý Imbalance (SMOTE)** | **Đã hoàn thành 100%** |
-| 3 | Nguyễn Phạm Anh Tuấn | 20235863 | Huấn luyện & Tối ưu hóa mô hình k-NN, SVM | Đang thực hiện (Đã nhận `train_test_features.npz`) |
-| 4 | Lê Minh Trọng | 20239675 | Huấn luyện & Tối ưu hóa Random Forest, XGBoost & Đánh giá tổng hợp | Đang thực hiện (Đã nhận `train_test_features.npz`) |
-| 5 | Đào Trọng Công | 20235665 | Xây dựng Giao diện trực quan hóa (UI), Cảnh báo & Tích hợp hệ thống | Đã khởi tạo khung `app/main.py` & nhận `feature_pipeline.joblib` |
+| 3 | **Nguyễn Phạm Anh Tuấn** | **20235863** | **Huấn luyện & Đánh giá mô hình k-NN, SVM (RBF)** | **Đã xong Baseline (Acc 98.88%)** |
+| 4 | **Lê Minh Trọng** | **20239675** | **Huấn luyện & Đánh giá Random Forest, XGBoost & Tổng hợp Confusion Matrix** | **Đã xong Baseline (Macro F1 86.01%)** |
+| 5 | Đào Trọng Công | 20235665 | Xây dựng Giao diện trực quan hóa (UI), Cảnh báo & Tích hợp hệ thống | Đã khởi tạo `app/main.py` & nhận `best_model.joblib` |
 
 ---
 
@@ -153,23 +153,40 @@ flowchart TD
 
 ## 5. KẾT QUẢ THÍ NGHIỆM HIỆN THỜI & LIÊN KẾT MÃ NGUỒN (CURRENT RESULTS)
 
-### 5.1. Các kết quả thực nghiệm và 6 biểu đồ đã hoàn thành (Module 1 & Module 2)
-Nhóm đã hoàn tất 100% pipeline Tiền xử lý (Module 1) và Trích xuất đặc trưng + PCA + SMOTE (Module 2) trên toàn bộ 44 bản ghi chuẩn AAMI (100.694 nhịp tim) và xuất thành công bộ **6 biểu đồ thực nghiệm độ phân giải cao (300 DPI)** trong thư mục `results/` để đưa vào Báo cáo tiến độ:
+### 5.1. Các kết quả thực nghiệm và 8 biểu đồ đã hoàn thành (Module 1, 2, 3 & 4)
+Nhóm đã hoàn tất 100% pipeline từ Tiền xử lý (Module 1), Trích xuất đặc trưng + PCA + SMOTE (Module 2) đến Huấn luyện thực nghiệm Baseline 4 mô hình Học máy (Module 3 & 4) trên toàn bộ 44 bản ghi chuẩn AAMI (100.694 nhịp tim) và xuất thành công bộ **8 biểu đồ thực nghiệm độ phân giải cao (300 DPI)** trong thư mục `results/`:
 1. **[results/fig1_raw_ecg_10s_rpeaks.png](file:///d:/20261/Nhập%20môn%20học%20máy/ECG-Arrhythmia-Classification/results/fig1_raw_ecg_10s_rpeaks.png):** Biểu đồ 10 giây tín hiệu ECG thô (Record 200, kênh MLII) kèm tọa độ đỉnh R và nhãn nhịp tim từ file annotation `.atr`.
-2. **[results/fig2_denoising_bandpass_comparison.png](file:///d:/20261/Nhập%20môn%20học%20máy/ECG-Arrhythmia-Classification/results/fig2_denoising_bandpass_comparison.png):** Biểu đồ so sánh trực tiếp tín hiệu Trước và Sau khi lọc thông dải Bandpass Butterworth bậc 4 ($0.5 - 45\text{ Hz}$, `filtfilt`), chứng minh đường cơ sở được đưa về $0\text{ mV}$, khử sạch nhiễu cao tần và không làm trễ pha đỉnh R.
+2. **[results/fig2_denoising_bandpass_comparison.png](file:///d:/20261/Nhập%20môn%20học%20máy/ECG-Arrhythmia-Classification/results/fig2_denoising_bandpass_comparison.png):** Biểu đồ so sánh trực tiếp tín hiệu Trước và Sau khi lọc thông dải Bandpass Butterworth bậc 4 ($0.5 - 45\text{ Hz}$, `filtfilt`).
 3. **[results/fig3_5classes_beat_morphology.png](file:///d:/20261/Nhập%20môn%20học%20máy/ECG-Arrhythmia-Classification/results/fig3_5classes_beat_morphology.png):** Biểu đồ hình thái sóng trung bình ($\pm 1\text{ std}$) của 5 lớp chuẩn AAMI ($N, S, V, F, Q$) trên cửa sổ cắt 250 mẫu (`[-90, +160]` quanh đỉnh R).
 4. **[results/fig4_aami_class_distribution.png](file:///d:/20261/Nhập%20môn%20học%20máy/ECG-Arrhythmia-Classification/results/fig4_aami_class_distribution.png) & [results/aami_class_distribution.csv](file:///d:/20261/Nhập%20môn%20học%20máy/ECG-Arrhythmia-Classification/results/aami_class_distribution.csv):** Biểu đồ và bảng thống kê phân bố thực tế 5 lớp AAMI ($N: 89.47\%, V: 6.96\%, S: 2.76\%, F: 0.80\%, Q: 0.01\%$).
 5. **[results/fig5_pca_explained_variance.png](file:///d:/20261/Nhập%20môn%20học%20máy/ECG-Arrhythmia-Classification/results/fig5_pca_explained_variance.png):** Biểu đồ phương sai giải thích tích lũy của PCA, nén từ $59 \rightarrow 26$ chiều trong khi vẫn bảo toàn $98.06\%$ phương sai thông tin.
 6. **[results/fig6_smote_class_balance.png](file:///d:/20261/Nhập%20môn%20học%20máy/ECG-Arrhythmia-Classification/results/fig6_smote_class_balance.png):** Biểu đồ đối chiếu phân bố 5 lớp trên tập Train trước ($80,555$ mẫu mất cân bằng) và sau khi áp dụng Hybrid SMOTE ($63,000$ mẫu cân bằng).
+7. **[results/fig7_confusion_matrices_4models.png](file:///d:/20261/Nhập%20môn%20học%20máy/ECG-Arrhythmia-Classification/results/fig7_confusion_matrices_4models.png):** Lưới Ma trận nhầm lẫn ($5 \times 5$) của cả 4 mô hình (`k-NN`, `SVM`, `Random Forest`, `XGBoost`) trên tập Test thực tế ($20,139$ nhịp tim).
+8. **[results/fig8_model_comparison_metrics.png](file:///d:/20261/Nhập%20môn%20học%20máy/ECG-Arrhythmia-Classification/results/fig8_model_comparison_metrics.png):** Biểu đồ cột so sánh Accuracy, Macro F1-Score, Training Time và Inference Time của 4 mô hình.
 
-### 5.2. Khung bảng kết quả huấn luyện mô hình (Dành cho Module 3 & 4 cập nhật sau khi chạy trên `processed_beats.npz`)
+### 5.2. Bảng kết quả thực nghiệm 4 mô hình Học máy trên tập Test (20.139 nhịp tim)
+*(Số liệu thực tế trích xuất từ [results/model_comparison.csv](file:///d:/20261/Nhập%20môn%20học%20máy/ECG-Arrhythmia-Classification/results/model_comparison.csv) và [results/per_class_f1.csv](file:///d:/20261/Nhập%20môn%20học%20máy/ECG-Arrhythmia-Classification/results/per_class_f1.csv) sau khi chạy [src/models/train_baseline.py](file:///d:/20261/Nhập%20môn%20học%20máy/ECG-Arrhythmia-Classification/src/models/train_baseline.py))*
 
-| Mô hình (Model) | Cấu hình cơ bản (Baseline Hyperparameters) | Accuracy (%) | Macro F1-Score (%) | Training Time (s) | Inference Time (ms / 1000 nhịp) |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| **k-NN** | `k=5, weights='distance'`, PCA + SMOTE | *Đang cập nhật* | *Đang cập nhật* | *Đang cập nhật* | *Đang cập nhật* |
-| **SVM** | `kernel='rbf', C=10, gamma='scale'`, PCA + SMOTE | *Đang cập nhật* | *Đang cập nhật* | *Đang cập nhật* | *Đang cập nhật* |
-| **Random Forest** | `n_estimators=200, class_weight='balanced'` | *Đang cập nhật* | *Đang cập nhật* | *Đang cập nhật* | *Đang cập nhật* |
-| **XGBoost** | `n_estimators=300, lr=0.1, max_depth=6` + SMOTE | *Đang cập nhật* | *Đang cập nhật* | *Đang cập nhật* | *Đang cập nhật* |
+#### A. Bảng so sánh tổng hợp 4 mô hình
+| Mô hình (Model) | Cấu hình thực nghiệm (Hyperparameters) | Accuracy (%) | Macro F1 (%) | Weighted F1 (%) | Macro Recall (%) | Train Time (s) | Inference Time (ms / 1000 nhịp) |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **k-NN** | `k=5, weights='distance'`, PCA (26d) + SMOTE | 98.30% | 75.28% | 98.41% | 89.68% | **0.00 s** | 147.34 ms |
+| **SVM (RBF)** | `kernel='rbf', C=10.0, gamma='scale'` | **98.88%** | 81.48% | **98.91%** | 83.48% | 15.18 s | 471.04 ms |
+| **Random Forest** | `n_estimators=200, max_depth=24` | 98.59% | **86.01%** | 98.61% | 87.37% | 19.01 s | **5.83 ms** |
+| **XGBoost** | `n_estimators=300, lr=0.1, max_depth=6` | **98.88%** | 85.81% | 98.90% | **95.11%** | 10.06 s | 5.98 ms |
+
+#### B. Bảng F1-Score chi tiết trên từng lớp chuẩn AAMI (Tập Test: $N=18018, S=556, V=1402, F=160, Q=3$)
+| Mô hình (Model) | Lớp N (Normal) | Lớp S (SVEB) | Lớp V (VEB - Nguy hiểm) | Lớp F (Fusion) | Lớp Q (Unknown) | Macro F1-Score |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **k-NN** | 99.15% | 88.39% | 96.19% | 70.42% | 22.22% | 75.28% |
+| **SVM (RBF)** | 99.43% | 90.55% | **97.86%** | 79.56% | 40.00% | 81.48% |
+| **Random Forest** | 99.29% | 90.18% | 95.57% | 78.34% | **66.67%** | **86.01%** |
+| **XGBoost** | **99.46%** | **91.40%** | 96.75% | **81.44%** | 60.00% | 85.81% |
+
+* **Phân tích kết quả thực nghiệm hiện thời:**
+  1. **Hiệu năng trên các lớp bệnh lý chính ($N, S, V, F$):** Nếu xét trên 4 lớp chính ($N, S, V, F$), **XGBoost** dẫn đầu toàn diện với F1-score đạt **$99.46\%$ (lớp $N$), $91.40\%$ (lớp $S$), $96.75\%$ (lớp $V$) và $81.44\%$ (lớp $F$)** (trung bình 4 lớp chính đạt **$92.26\%$**), đồng thời đạt **Macro Recall cao nhất ($95.11\%$)**.
+  2. **Lý do Macro F1 tổng thể đạt ~86%:** Trong 44 bản ghi chuẩn AAMI (sau khi bỏ 4 bản ghi máy tạo nhịp), lớp $Q$ chỉ tồn tại đúng 15 nhịp trên toàn bộ tập dữ liệu (12 nhịp Train, 3 nhịp Test). Chỉ cần dự đoán lệch 1–2 nhịp sang lớp $Q$ thì Precision của lớp $Q$ đã giảm mạnh, kéo trung bình cộng không trọng số (Macro F1 của 5 lớp) xuống $86.01\%$ (Random Forest) và $85.81\%$ (XGBoost).
+  3. **Tốc độ xử lý thời gian thực:** **Random Forest ($5.83\text{ ms}/1000\text{ nhịp}$)** và **XGBoost ($5.98\text{ ms}/1000\text{ nhịp}$)** nhanh gấp ~80 lần so với SVM ($471.04\text{ ms}/1000\text{ nhịp}$), đáp ứng hoàn hảo yêu cầu cảnh báo thời gian thực trên giao diện.
 
 * **Liên kết mã nguồn (Source Code Repository):** `https://github.com/truntain/ECG-Arrhythmia-Classification`
 
